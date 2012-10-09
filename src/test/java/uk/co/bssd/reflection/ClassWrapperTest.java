@@ -22,7 +22,7 @@ public class ClassWrapperTest {
 	
 	@Test
 	public void testWrapperReturnsCorrectNumberOfConstructors() {
-		assertThat(constructors().size(), is(1));
+		assertThat(constructors().size(), is(0));
 	}
 	
 	private List<ConstructorWrapper> constructors() {
