@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
-
 import org.junit.Test;
 
 public class ClassWrapperTest {
@@ -25,7 +23,7 @@ public class ClassWrapperTest {
 		assertThat(constructors().size(), is(0));
 	}
 	
-	private List<ConstructorWrapper> constructors() {
+	private ConstructorWrappers constructors() {
 		return classWrapper().constructors();
 	}
 

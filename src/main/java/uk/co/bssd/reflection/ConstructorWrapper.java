@@ -49,24 +49,32 @@ public class ConstructorWrapper {
 				.getGenericParameterTypes();
 
 		List<LocalVariableNode> localVariables = method.localVariables;
-		// The first local variable actually represents "this" object
-		for (int i = 0; i < argumentTypes.length; i++) {
-			String name = localVariables.get(i + 1).name;
-			Type type = argumentTypes[0];
-			String parameterClass = type.getClassName();
-
-			ParameterWrapper parameterDescriptor;
-
-			java.lang.reflect.Type genericParameterType = genericParameterTypes[i];
-			if (genericParameterType instanceof TypeVariable) {
-				TypeVariable<?> typeVariable = (TypeVariable<?>) genericParameterType;
-				parameterDescriptor = new ParameterWrapper(name,
-						parameterClass, typeVariable.getName());
-			} else {
-				parameterDescriptor = new ParameterWrapper(name, parameterClass);
+		
+		if (localVariables.size() > 0) {
+			// The first local variable actually represents "this" object
+			for (int i = 1; i < localVariables.size(); i++) {
+				String name = localVariables.get(i).name;
+				Type type = argumentTypes[i-1];
+				String parameterClass = type.getClassName();
+				
+				ParameterWrapper parameterDescriptor;
+				
+				java.lang.reflect.Type genericParameterType = genericParameterTypes[i-1];
+				if (genericParameterType instanceof TypeVariable) {
+					TypeVariable<?> typeVariable = (TypeVariable<?>) genericParameterType;
+					parameterDescriptor = new ParameterWrapper(name,
+							parameterClass, typeVariable.getName());
+				} else {
+					parameterDescriptor = new ParameterWrapper(name, parameterClass);
+				}
+				
+				parameterNames.add(parameterDescriptor);
 			}
-
-			parameterNames.add(parameterDescriptor);
+		} else {
+			int i = 0;
+			for (Type argumentType : argumentTypes) {
+				parameterNames.add(new ParameterWrapper("arg" + i++, argumentType.getClassName()));
+			}
 		}
 
 		return parameterNames;

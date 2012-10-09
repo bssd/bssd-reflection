@@ -33,4 +33,11 @@ public class ParameterWrapper {
 	public String genericTypeName() {
 		return this.genericTypeName;
 	}
+
+	public Class<?> getType() {
+		if (this.classname == Double.TYPE.getName()) {
+			return Double.TYPE;
+		}
+		return ClassWrapper.forName(this.classname).clazz();
+	}
 }

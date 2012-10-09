@@ -21,7 +21,7 @@ public class ClassWrapper {
 					"Unable to create ClassWrapper for class '" + name + "'", e);
 		}
 	}
-	
+
 	public static ClassWrapper forClass(Class<?> clazz) {
 		return new ClassWrapper(clazz);
 	}
@@ -32,16 +32,20 @@ public class ClassWrapper {
 		this.clazz = clazz;
 	}
 
-	public List<ConstructorWrapper> constructors() {
+	public ConstructorWrappers constructors() {
 		List<ConstructorWrapper> constructorWrappers = new ArrayList<ConstructorWrapper>();
 		for (Constructor<?> constructor : this.clazz.getConstructors()) {
 			constructorWrappers.add(new ConstructorWrapper(this, constructor));
 		}
-		return constructorWrappers;
+		return new ConstructorWrappers(constructorWrappers);
 	}
-	
+
 	public String className() {
 		return this.clazz.getName();
+	}
+
+	public Class<?> clazz() {
+		return this.clazz;
 	}
 
 	/* package */ClassNode classNode() {
@@ -65,6 +69,11 @@ public class ClassWrapper {
 
 	private InputStream inputStream() {
 		ClassLoader declaringClassLoader = this.clazz.getClassLoader();
+
+		if (declaringClassLoader == null) {
+			declaringClassLoader = ClassLoader.getSystemClassLoader();
+		}
+
 		Type declaringType = Type.getType(clazz);
 		String url = declaringType.getInternalName() + ".class";
 

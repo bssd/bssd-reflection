@@ -37,6 +37,6 @@ public class ConstructorWrapperTest {
 	}
 	
 	private ConstructorWrapper constructor(Class<?> clazz) {
-		return ClassWrapper.forName(clazz.getName()).constructors().get(0);
+		return ClassWrapper.forName(clazz.getName()).constructors().iterator().next();
 	}
 }
