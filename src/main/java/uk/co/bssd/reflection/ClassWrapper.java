@@ -21,10 +21,14 @@ public class ClassWrapper {
 					"Unable to create ClassWrapper for class '" + name + "'", e);
 		}
 	}
+	
+	public static ClassWrapper forClass(Class<?> clazz) {
+		return new ClassWrapper(clazz);
+	}
 
 	private final Class<?> clazz;
 
-	public ClassWrapper(Class<?> clazz) {
+	private ClassWrapper(Class<?> clazz) {
 		this.clazz = clazz;
 	}
 
